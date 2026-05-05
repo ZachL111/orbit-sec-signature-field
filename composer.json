@@ -1,0 +1,10 @@
+{
+  "name": "zachl111/orbit-sec-signature-field",
+  "description": "Implement a PHP security tooling project for signature state machine modeling, using transition tables and invalid-transition tests.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Portfolio\\": "src/"
+    }
+  }
+}
