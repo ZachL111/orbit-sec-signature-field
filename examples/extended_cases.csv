@@ -1,0 +1,7 @@
+name,demand,capacity,latency,risk,weight,score,decision,reason
+baseline,63,84,19,13,7,155,review,security tooling baseline scenario exercises the review path for bounded failure handling
+pressure,86,71,29,19,11,164,review,security tooling pressure scenario exercises the review path for bounded failure handling
+surge,101,93,24,16,14,253,accept,security tooling surge scenario keeps the local fixture within the modeled acceptance band
+degraded,71,58,31,28,5,51,review,security tooling degraded scenario exercises the review path for bounded failure handling
+recovery,93,101,19,12,11,256,accept,security tooling recovery scenario keeps the local fixture within the modeled acceptance band
+boundary,79,86,21,18,10,180,accept,security tooling boundary scenario keeps the local fixture within the modeled acceptance band
