@@ -1,68 +1,40 @@
 # orbit-sec-signature-field
 
-`orbit-sec-signature-field` is a focused PHP codebase around implement a PHP security tooling project for signature state machine modeling, using transition tables and invalid-transition tests. It is meant to be easy to inspect, run, and extend without a hosted service.
-
-## Orbit Sec Signature Field Walkthrough
-
-I would read the project from the outside in: command, fixture, model, then roadmap. That keeps the security tooling idea grounded in files that can be checked locally.
-
-## How It Is Put Together
-
-The core is a scoring model over demand, capacity, latency, risk, and weight. That keeps trust boundaries, policy checks, and replay guards in one explicit decision path. The threshold is 179, with risk penalty 4, latency penalty 2, and weight bonus 5. The PHP implementation uses strict types and a small namespaced policy class.
+`orbit-sec-signature-field` explores security tooling with a small PHP codebase and local fixtures. The technical goal is to implement a PHP security tooling project for signature state machine modeling, using transition tables and invalid-transition tests.
 
 ## Reason For The Project
 
-I use this kind of project to make a rule visible before adding more machinery around it. The important part here is not the size of the codebase. It is that the input signals, scoring rule, fixture data, and expected output can all be checked in one sitting.
+I want this repository to be useful as a quick reading exercise: fixtures first, implementation second, verifier last.
 
-## Capabilities
+## Orbit Sec Signature Field Review Notes
 
-- Uses fixture data to keep policy checks changes visible in code review.
-- Includes extended examples for replay guards, including `recovery` and `degraded`.
-- Documents claim validation tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
+Start with `replay exposure` and `claim drift`. Those cases create the widest score spread in this repo, so they are the best quick check when the model changes.
 
-## Data Notes
+## What It Does
 
-The examples are meant to be readable before they are exhaustive. They cover enough variation to show how latency and risk can pull a decision below the threshold.
+- `fixtures/domain_review.csv` adds cases for trust boundary and claim drift.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/orbit-sec-signature-walkthrough.md` walks through the case spread.
+- The PHP code includes a review path for `replay exposure` and `claim drift`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Where Things Live
+## How It Is Put Together
 
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Getting It Running
+The PHP addition stays small enough to inspect in one sitting.
 
-Install PHP and run the commands from the repository root. The project does not need credentials or a hosted service.
-
-## Command Examples
+## Run It
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Check It
 
-## Check The Work
+The check exercises the source code and the review fixture. `edge` is the high score at 194; `stress` is the low score at 98.
 
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
+## Boundaries
 
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Tradeoffs
-
-The fixture set is deliberately small. That keeps the review surface clear, but it also means the model should not be treated as a complete domain simulator.
-
-## Possible Extensions
-
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add one more security tooling fixture that focuses on a malformed or borderline input.
+The fixture set is small enough to audit by hand. The next useful expansion is malformed input coverage, not extra surface area.
